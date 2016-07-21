@@ -810,13 +810,14 @@ def fullmap():
         'example_fullmap.html', key=GOOGLEMAPS_KEY, fullmap=get_map(), auto_refresh=auto_refresh)
 
 @app.route('/override_loc')
+@app.route('/l')
 def new_location():
     global NEW_FLOAT_LAT, NEW_FLOAT_LONG, OVERRIDE_LOC, origin_lat, origin_lon
     lat = flask.request.args.get('lat', '')
     lon = flask.request.args.get('lon', '')
-    if not (lat and lon):
-        print('[-] Invalid override location: %s,%s' % (lat, lon))
-    else:
+    location_name = flask.request.args.get('name', '')
+
+    if (lat and lon):
         print('[+] Saved override location as %s,%s' % (lat, lon))
         OVERRIDE_LOC = 1
         NEW_FLOAT_LAT = float(lat)
@@ -824,6 +825,30 @@ def new_location():
         origin_lat = NEW_FLOAT_LAT
         origin_lon = NEW_FLOAT_LONG
         return 'ok'
+    elif location_name:
+        geolocator = GoogleV3()
+        prog = re.compile('^(\-?\d+(\.\d+)?),\s*(\-?\d+(\.\d+)?)$')
+        global NEW_FLOAT_LAT, NEW_FLOAT_LONG, OVERRIDE_LOC, origin_lat, origin_lon
+
+        if prog.match(location_name):
+            local_lat, local_lng = [float(x) for x in location_name.split(",")]
+            alt = 0
+            origin_lat, origin_lon = local_lat, local_lng
+        else:
+            loc = geolocator.geocode(location_name)
+            origin_lat, origin_lon = local_lat, local_lng = loc.latitude, loc.longitude
+            alt = loc.altitude
+            print '[!] Your given location: {}'.format(loc.address.encode('utf-8'))
+
+        print('[!] lat/long/alt: {} {} {}'.format(local_lat, local_lng, alt))
+        OVERRIDE_LOC = 1
+        NEW_FLOAT_LAT = float(local_lat)
+        NEW_FLOAT_LONG = float(local_lng)
+        origin_lat = NEW_FLOAT_LAT
+        origin_lon = NEW_FLOAT_LONG        
+        return 'ok'
+    else:
+        print('[-] Please provide either a location `name` or `lat` & `lon`.')
 
 @app.route('/next_loc')
 def next_loc():
