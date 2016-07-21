@@ -146,6 +146,7 @@
             $.get(baseURL + "/data", function(response){
                 var json_obj = $.parseJSON(response);
                 var now = new Date();
+                var topPicks = ["Venusaur","Charmeleon","Charizard","Blastoise","Butterfree","Beedrill","Raichu","Sandslash","Nidoqueen","Nidoking","Clefable","Ninetales","Wigglytuff","Vileplume","Dugtrio","Primeape","Arcanine","Poliwrath","Kadabra","Alakazam","Machoke","Machamp","Graveler","Golem","Rapidash","Slowbro","Farfetch'd","Dewgong","Muk","Haunter","Gengar","Onix","Hypno","Exeggutor","Marowak","Hitmonlee","Hitmonchan","Lickitung","Weezing","Rhydon","Chansey","Kangaskhan","Seadra","Mr. Mime","Electabuzz","Magmar","Gyarados","Lapras","Ditto","Vaporeon","Jolteon","Flareon","Porygon","Omastar","Kabuto","Kabutops","Aerodactyl","Snorlax","Articuno","Zapdos","Moltres","Dragonair","Dragonite","Mewtwo","Mew"];
                 
                 for (var index in json_obj) {
                     var item = json_obj[index];
@@ -173,6 +174,10 @@
                             map: map,
                             icon: item["icon"],
                         });
+
+                    if (item.type === "pokemon" && topPicks.indexOf(item.info.name) !== -1)
+                        alert(item.info.name + '!');
+
                     markerCache[key] = {item: item, marker: marker};
                     var disappearsAt;
 

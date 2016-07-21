@@ -1,0 +1,6 @@
+[
+	"Bulbasaur",
+	"Ivysaur",
+	"Venusaur",
+	"Charmander"
+]

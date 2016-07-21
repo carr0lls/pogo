@@ -876,7 +876,8 @@ def get_pokemarkers():
             'icon': 'static/icons/%d.png' % pokemon["id"],
             'lat': pokemon["lat"],
             'lng': pokemon["lng"],
-            'infobox': label
+            'infobox': label,
+            'info': pokemon
         })
 
     for gym_key in gyms:

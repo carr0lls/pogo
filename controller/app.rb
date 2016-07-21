@@ -12,10 +12,10 @@ post '/update' do
   lat = params[:lat]
   lon = params[:lon]
 
-  raw = %(<gpx creator="Xcode" version="1.1"><wpt lat="#{lat}" lon="#{lon}"><name>PokemonLocation</name></wpt></gpx>)
-  File.open('PokemonLocation.gpx', 'w') do |f|
-    f.puts raw
-  end
-  system('osascript click-event.scpt')
-  'ok'
+  # raw = %(<gpx creator="Xcode" version="1.1"><wpt lat="#{lat}" lon="#{lon}"><name>PokemonLocation</name></wpt></gpx>)
+  # File.open('PokemonLocation.gpx', 'w') do |f|
+  #   f.puts raw
+  # end
+  # system('osascript click-event.scpt')
+  # 'ok'
 end
