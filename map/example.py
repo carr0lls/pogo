@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import flask
-from flask import Flask, render_template
+from flask import Flask, render_template, redirect, url_for
 from flask_cors import CORS, cross_origin
 from flask_googlemaps import GoogleMaps
 from flask_googlemaps import Map
@@ -815,17 +815,13 @@ def new_location():
     global NEW_FLOAT_LAT, NEW_FLOAT_LONG, OVERRIDE_LOC, origin_lat, origin_lon
     lat = flask.request.args.get('lat', '')
     lon = flask.request.args.get('lon', '')
-    location_name = flask.request.args.get('name', '')
+    location_name = flask.request.args.get('n', '')
 
-    if (lat and lon):
-        print('[+] Saved override location as %s,%s' % (lat, lon))
-        OVERRIDE_LOC = 1
-        NEW_FLOAT_LAT = float(lat)
-        NEW_FLOAT_LONG = float(lon)
-        origin_lat = NEW_FLOAT_LAT
-        origin_lon = NEW_FLOAT_LONG
-        return 'ok'
-    elif location_name:
+    if not (lat and lon or location_name):
+        print('[-] Please provide either a location name (n) or coordinates (lat, lon).')
+        return fullmap()
+
+    if location_name:
         geolocator = GoogleV3()
         prog = re.compile('^(\-?\d+(\.\d+)?),\s*(\-?\d+(\.\d+)?)$')
         global NEW_FLOAT_LAT, NEW_FLOAT_LONG, OVERRIDE_LOC, origin_lat, origin_lon
@@ -841,14 +837,18 @@ def new_location():
             print '[!] Your given location: {}'.format(loc.address.encode('utf-8'))
 
         print('[!] lat/long/alt: {} {} {}'.format(local_lat, local_lng, alt))
-        OVERRIDE_LOC = 1
         NEW_FLOAT_LAT = float(local_lat)
         NEW_FLOAT_LONG = float(local_lng)
-        origin_lat = NEW_FLOAT_LAT
-        origin_lon = NEW_FLOAT_LONG        
-        return 'ok'
     else:
-        print('[-] Please provide either a location `name` or `lat` & `lon`.')
+        print('[+] Saved override location as %s,%s' % (lat, lon))
+        NEW_FLOAT_LAT = float(lat)
+        NEW_FLOAT_LONG = float(lon)
+
+    OVERRIDE_LOC = 1
+    origin_lat = NEW_FLOAT_LAT
+    origin_lon = NEW_FLOAT_LONG
+    return fullmap()
+        
 
 @app.route('/next_loc')
 def next_loc():
