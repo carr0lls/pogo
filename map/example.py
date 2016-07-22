@@ -818,8 +818,8 @@ def new_location():
     location_name = flask.request.args.get('n', '')
 
     if not (lat and lon or location_name):
-        print('[-] Please provide either a location name (n) or coordinates (lat, lon).')
-        return 'ok'
+        print('[-] Invalid request. Location name (n) and coordinates (lat, lon) not provided.')
+        return 'Please provide either a location name (n) or coordinates (lat, lon).'
 
     if location_name:
         geolocator = GoogleV3()
@@ -830,6 +830,8 @@ def new_location():
             local_lat, local_lng = [float(x) for x in location_name.split(",")]
             alt = 0
             origin_lat, origin_lon = local_lat, local_lng
+            # print('[-] Bad request. Location name (n) cannot be found.')
+            # return 'Please provide a valid location address (i.e. City Hall, San Francisco, CA).'
         else:
             loc = geolocator.geocode(location_name)
             origin_lat, origin_lon = local_lat, local_lng = loc.latitude, loc.longitude
@@ -847,7 +849,7 @@ def new_location():
     OVERRIDE_LOC = 1
     origin_lat = NEW_FLOAT_LAT
     origin_lon = NEW_FLOAT_LONG
-    return 'ok'
+    return 'New location saved.'
         
 
 @app.route('/next_loc')

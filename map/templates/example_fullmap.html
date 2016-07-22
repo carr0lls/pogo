@@ -10,6 +10,7 @@
         <h1></h1>
         <div style="height:10%;width:100%;position:absolute;top:0;z-index:400;">
             <button onclick="scanCurrentLocation();">Current Location</button>
+            <input type="text" id="location_name" name="location_name" />
         </div>
         <div id="fullmap" style="height:90%;width:100%;bottom:0;left:0;position:absolute;z-index:200;"">
             {{ fullmap.html }}
@@ -53,7 +54,16 @@
 
     window.setInterval(setLabelTime, 1000);
 
-  
+    $('#location_name').keypress(function(e) {
+        if (!$(this).val())
+            return;
+
+        if (e.which === 13) {
+            $.get(baseURL + "/l?n=" + $(this).val(), function(response) {
+                console.log(response);
+            });
+        }
+    });
   </script>
   {% if auto_refresh %}
     <script type="text/javascript">
@@ -61,19 +71,15 @@
         var options = {};
         var map = null;
         var markers = [];
-        var markerCache = {};
+        var markerCache = {};    
 
         function scanCurrentLocation() {
-            var startPos;
             var geoOptions = {
                 timeout: 10 * 1000
             }
 
-            var geoSuccess = function(position) {
-                startPos = position;
-                $.get(baseURL + "/l?lat=" + startPos.coords.latitude + "&lon=" + startPos.coords.longitude, function(response) {
-                    console.log(response);
-                });
+            var geoSuccess = function(pos) {
+                scanLocation(pos.coords.latitude, pos.coords.longitude);
             };
             var geoError = function(error) {
                 console.log('Error occurred. Error code: ' + error.code);
@@ -87,6 +93,12 @@
             // Get user's current location
             navigator.geolocation.getCurrentPosition(geoSuccess, geoError, geoOptions);
         };
+
+        function scanLocation(lat, lng) {
+            $.get(baseURL + "/l?lat=" + lat + "&lon=" + lng, function(response) {
+                console.log(response);
+            });
+        }
 
         // Adds a marker to the map and push to the array.
         function addMarker(options = {}) {
@@ -152,10 +164,11 @@
 
         function createMap(){
             if(map == null && google != null && google.maps != null){
-                if(options.identifier != null){
+                if(options.identifier != null) {
                     map = new google.maps.Map(
                         document.getElementById(options["identifier"]), {
                             center: new google.maps.LatLng(options["lat"], options["lng"]),
+                            clickableIcons: false,
                             zoom: options["zoom"],
                             mapTypeId: google.maps.MapTypeId.ROADMAP,
                             zoomControl: true,
@@ -165,9 +178,14 @@
                             rotateControl: true,
                             fullscreenControl: true
                     });
+
+                    google.maps.event.addListener(map, 'click', function (event) {
+                        scanLocation(event.latLng.lat(), event.latLng.lng());               
+                    });                    
                 }
             }
         }
+
         function updateMap(){
             // A new map is created because the original one isn't saved
             createMap();
@@ -188,7 +206,7 @@
                         }
                         if((markerCache[key].item.lat != item["lat"] && markerCache[key].item.lng != item["lng"])){
 
-                            console.log("Warning: object with identical key has different coordinates please report bug", key);
+                            // console.log("Warning: object with identical key has different coordinates please report bug", key);
                             needs_replacing = true;
                             // Pan to new start position if the marker location is updated
                             if (map !== null && item.key === "start-position") {
