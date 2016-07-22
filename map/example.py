@@ -837,12 +837,12 @@ def new_location():
             print '[!] Your given location: {}'.format(loc.address.encode('utf-8'))
 
         print('[!] lat/long/alt: {} {} {}'.format(local_lat, local_lng, alt))
-        NEW_FLOAT_LAT = float(local_lat)
-        NEW_FLOAT_LONG = float(local_lng)
+        FLOAT_LAT = NEW_FLOAT_LAT = float(local_lat)
+        FLOAT_LONG = NEW_FLOAT_LONG = float(local_lng)
     else:
         print('[+] Saved override location as %s,%s' % (lat, lon))
-        NEW_FLOAT_LAT = float(lat)
-        NEW_FLOAT_LONG = float(lon)
+        FLOAT_LAT = NEW_FLOAT_LAT = float(lat)
+        FLOAT_LONG = NEW_FLOAT_LONG = float(lon)
 
     OVERRIDE_LOC = 1
     origin_lat = NEW_FLOAT_LAT

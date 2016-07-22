@@ -8,7 +8,10 @@
     </head>
     <body>
         <h1></h1>
-        <div id="fullmap" style='height:100%;width:100%;top:0;left:0;position:absolute;z-index:200;'>
+        <div style="height:10%;width:100%;position:absolute;top:0;z-index:400;">
+            <button onclick="scanCurrentLocation();">Current Location</button>
+        </div>
+        <div id="fullmap" style="height:90%;width:100%;bottom:0;left:0;position:absolute;z-index:200;"">
             {{ fullmap.html }}
 
         </div>
@@ -59,6 +62,32 @@
         var map = null;
         var markers = [];
         var markerCache = {};
+
+        function scanCurrentLocation() {
+            var startPos;
+            var geoOptions = {
+                timeout: 10 * 1000
+            }
+
+            var geoSuccess = function(position) {
+                startPos = position;
+                $.get(baseURL + "/l?lat=" + startPos.coords.latitude + "&lon=" + startPos.coords.longitude, function(response) {
+                    console.log(response);
+                });
+            };
+            var geoError = function(error) {
+                console.log('Error occurred. Error code: ' + error.code);
+                // error.code can be:
+                //   0: unknown error
+                //   1: permission denied
+                //   2: position unavailable (error response from location provider)
+                //   3: timed out
+            };
+
+            // Get user's current location
+            navigator.geolocation.getCurrentPosition(geoSuccess, geoError, geoOptions);
+        };
+
         // Adds a marker to the map and push to the array.
         function addMarker(options = {}) {
             var default_options = {map: map}
