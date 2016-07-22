@@ -819,7 +819,7 @@ def new_location():
 
     if not (lat and lon or location_name):
         print('[-] Please provide either a location name (n) or coordinates (lat, lon).')
-        return fullmap()
+        return 'ok'
 
     if location_name:
         geolocator = GoogleV3()
@@ -847,7 +847,7 @@ def new_location():
     OVERRIDE_LOC = 1
     origin_lat = NEW_FLOAT_LAT
     origin_lon = NEW_FLOAT_LONG
-    return fullmap()
+    return 'ok'
         
 
 @app.route('/next_loc')

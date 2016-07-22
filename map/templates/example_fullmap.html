@@ -4,10 +4,10 @@
             <meta charset="utf-8">
             <meta http-equiv="X-UA-Compatible" content="IE=edge">
             <meta name="viewport" content="width=device-width, initial-scale=1">
-            <title>Flask Google Maps Full Map Example</title>
+            <title>PoGo Hunt</title>
     </head>
     <body>
-        <h1>Flask Google Maps Full Map Example</h1>
+        <h1></h1>
         <div id="fullmap" style='height:100%;width:100%;top:0;left:0;position:absolute;z-index:200;'>
             {{ fullmap.html }}
 
@@ -157,10 +157,14 @@
                             (function(_marker){setTimeout(_marker.setMap(null), 500)})(markerCache[key].marker);
                             needs_replacing = true;
                         }
-                        if((markerCache[key].item.lat != item["lat"] && markerCache[key].item.lng != item['lng'])){
+                        if((markerCache[key].item.lat != item["lat"] && markerCache[key].item.lng != item["lng"])){
 
                             console.log("Warning: object with identical key has different coordinates please report bug", key);
                             needs_replacing = true;
+                            // Pan to new start position if the marker location is updated
+                            if (map !== null && item.key === "start-position") {
+                                map.panTo({lat: item["lat"], lng: item["lng"]});
+                            }
                         }
                         if(!needs_replacing){
                             continue;
@@ -174,9 +178,6 @@
                             map: map,
                             icon: item["icon"],
                         });
-
-                    if (item.type === "pokemon" && topPicks.indexOf(item.info.name) !== -1)
-                        alert(item.info.name + '!');
 
                     markerCache[key] = {item: item, marker: marker};
                     var disappearsAt;
@@ -192,10 +193,18 @@
                     }
 
                     if (item["infobox"]) {
+                        marker.infoWindow = new google.maps.InfoWindow({
+                            content: item["infobox"],
+                            disableAutoPan: true
+                        });
+                        // Show info window on init if Pokemon is in the top list
+                        if (item.type === "pokemon" && topPicks.indexOf(item.info.name) !== -1) {
+                            alert(item.info.name + '!');
+                            marker.infoWindow.open(map, marker);
+                            marker["persist"] = true;
+                        }
+
                         (function(_infobox, _map, _marker){
-                            _marker.infoWindow = new google.maps.InfoWindow({
-                                content: _infobox
-                            });
                             _marker.addListener('click', function() {
                                 _marker.infoWindow.open(_map, _marker);
                                 _marker["persist"] = true;
