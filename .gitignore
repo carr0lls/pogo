@@ -3,3 +3,4 @@ foo.xcodeproj/project.xcworkspace/xcuserdata
 .DS_Store
 **/*.pyc
 **/*.sh
+/map/caro.py

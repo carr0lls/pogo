@@ -849,7 +849,7 @@ def new_location():
     OVERRIDE_LOC = 1
     origin_lat = NEW_FLOAT_LAT
     origin_lon = NEW_FLOAT_LONG
-    return 'New location saved.'
+    return json.dumps({'success': {'lat': NEW_FLOAT_LAT, 'lng': NEW_FLOAT_LONG}})
         
 
 @app.route('/next_loc')
