@@ -32,6 +32,8 @@
                     width: 250px;
                     border: 0;
                     border-radius: 4px;
+                    padding-left: 10px;
+                    box-shadow: rgba(0, 0, 0, 0.298039) 0px 1px 4px -1px;
                 }
                 .submit-search {
                     background: none !important;
@@ -45,17 +47,18 @@
                 }
                 .set-address {
                     position:absolute;
-                    top:85px;
-                    left:0;
+                    top:10px;
+                    left:0px;
                     z-index:400;
                     margin-left:10px;
                 }
                 .current-location {
                     position:absolute;
                     top:9px;
-                    left:105px;
+                    left:260px;
                     z-index:400;
                     margin-left:10px;
+                    box-shadow: rgba(0, 0, 0, 0.298039) 0px 1px 4px -1px;
                 }
                 #fullmap {
                     height:100%;
@@ -77,8 +80,7 @@
     <body>
         <div class="set-address">
             <form id="location-search">
-                <label>Address:</label>
-                <input type="text" id="location-name" name="location_name"/>
+                <input type="text" id="location-name" name="location_name" placeholder="Set search location"/>
                 <button type="submit" class="btn btn-primary submit-search">
                     <span class="glyphicon glyphicon-search"></span>
                 </button>
@@ -271,7 +273,7 @@
                             zoom: options["zoom"],
                             mapTypeId: google.maps.MapTypeId.ROADMAP,
                             zoomControl: true,
-                            mapTypeControl: true,
+                            mapTypeControl: false,
                             scaleControl: true,
                             streetViewControl: true,
                             rotateControl: true,
@@ -348,7 +350,7 @@
                             alert(item.info.name + '!');
                             marker.infoWindow.open(map, marker);
                             marker["persist"] = true;
-                            $('.navbar').append('<div class="list-inline"><img src="/'+item["icon"]+'"/></div>');
+                            // $('.navbar').append('<div class="list-inline"><img src="/'+item["icon"]+'"/></div>');
                         }
 
                         (function(_infobox, _map, _marker){

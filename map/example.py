@@ -872,7 +872,7 @@ def get_pokemarkers():
         'icon': icons.dots.red,
         'lat': origin_lat,
         'lng': origin_lon,
-        'infobox': "Start position",
+        'infobox': "Search position",
         'type': 'custom',
         'key': 'start-position',
         'disappear_time': -1
