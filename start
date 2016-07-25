@@ -1,0 +1,2 @@
+#!/bin/sh
+cd map && python example.py -a google -u moycecj@gmail.com -p Eng*n33ring -l "212 Head St, San Fran, CA" -st 15 -i Bulbasaur,Squirtle,Staryu,Caterpie,Metapod,Weedle,Kakuna,Pidgey,Pidgeotto,Rattata,Spearow,Ekans,Nidoran,Nidoran♀,Nidoran♂,Clefairy,Zubat,Paras,Venonat,Diglett,Meowth,Psyduck,Mankey,Poliwag,Machop,Bellsprout,Tentacool,Geodude,Ponyta,Slowpoke,Magnemite,Doduo,Dodrio,Seel,Magikarp,Goldeen -ar 2 &

@@ -4,3 +4,4 @@ foo.xcodeproj/project.xcworkspace/xcuserdata
 **/*.pyc
 **/*.sh
 /map/caro.py
+node_modules

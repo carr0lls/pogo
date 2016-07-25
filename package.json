@@ -1,0 +1,24 @@
+{
+  "name": "pogo",
+  "version": "1.0.0",
+  "description": "Merged with [PokemonMap] (https://github.com/AHAAAAAAA/PokemonGo-Map), we now have a full interactive spoofer plus map of the nearby pokemons.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/carr0lls/pogo.git"
+  },
+  "author": "Carroll Yu",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/carr0lls/pogo/issues"
+  },
+  "homepage": "https://github.com/carr0lls/pogo#readme",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0"
+  }
+}
