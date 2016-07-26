@@ -79,6 +79,7 @@ numbertoteam = {  # At least I'm pretty sure that's it. I could be wrong and the
     2: 'Valor',
     3: 'Instinct',
 }
+top_picks = ["Mewtwo", "Mew"]
 origin_lat, origin_lon = None, None
 is_ampm_clock = False
 
@@ -453,6 +454,10 @@ def get_args():
     group.add_argument(
         '-o', '--only', help='Comma-separated list of Pokémon names to search')
     parser.add_argument(
+        "-tp",
+        "--top_picks",
+        help="Comma-separated list of Pokémon names to notify user when they are found on the map.")
+    parser.add_argument(
         "-ar",
         "--auto_refresh",
         help="Enables an autorefresh that behaves the same as a page reload. " +
@@ -577,6 +582,10 @@ def main():
     if args.auto_refresh:
         global auto_refresh
         auto_refresh = int(args.auto_refresh) * 1000
+
+    if args.top_picks:
+        global top_picks
+        top_picks = [tp.strip() for tp in args.top_picks.split(',')]
 
     if args.ampm_clock:
     	global is_ampm_clock
@@ -807,7 +816,7 @@ def fullmap():
     clear_stale_pokemons()
 
     return render_template(
-        'example_fullmap.html', key=GOOGLEMAPS_KEY, fullmap=get_map(), auto_refresh=auto_refresh)
+        'example_fullmap.html', key=GOOGLEMAPS_KEY, fullmap=get_map(), auto_refresh=auto_refresh, top_picks=top_picks)
 
 @app.route('/override_loc')
 @app.route('/l')

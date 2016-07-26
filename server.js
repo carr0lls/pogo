@@ -25,7 +25,7 @@ function startServer(cb) {
 			if (error !== null) {
 				console.log('exec error: ' + error);
 			}
-		});	
+		});
 		cb(null, 'starting server... ');
 	});	
 }
