@@ -13,7 +13,7 @@
 	},
 	"START_LOCATION": { 
 		"key": "-l",
-		"value": "650 Townsend St, San Fran, CA"
+		"value": "650Townsend,SanFrancisco,CA"
 	},
 	"STEPS": {
 		"key": "-st",
