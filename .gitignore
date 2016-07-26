@@ -4,3 +4,4 @@ foo.xcodeproj/project.xcworkspace/xcuserdata
 **/*.pyc
 **/*.sh
 node_modules
+/config.json
