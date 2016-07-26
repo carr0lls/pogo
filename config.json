@@ -1,0 +1,26 @@
+{
+	"AUTH_SERVICE": {
+		"key": "-a",
+		"value": "google"
+	},
+	"AUTH_USERNAME": {
+		"key": "-u",
+		"value": "..."
+	},
+	"AUTH_PASSWORD": {
+		"key": "-p",
+		"value": "..."
+	},
+	"START_LOCATION": { 
+		"key": "-l",
+		"value": "650 Townsend St, San Fran, CA"
+	},
+	"STEPS": {
+		"key": "-st",
+		"value": "7"
+	},
+	"AUTO_REFRESH": {
+		"key": "-ar",
+		"value": "2"
+	}
+}
